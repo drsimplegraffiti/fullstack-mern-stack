@@ -6,6 +6,7 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+
 const EditProfile = () => {
   const navigate = useNavigate();
   const { user, dispatch } = useAuthContext();
@@ -51,12 +52,12 @@ const EditProfile = () => {
 
       if (!response.data) {
         setIsLoading(false);
-        // toast.error(response.data.message);
         setError(json.error);
         return;
       }
 
       if (response.data) {
+        
         setError(null);
         console.log(json);
         dispatch({ type: 'UPDATE_PROFILE', payload: json });
@@ -77,9 +78,6 @@ const EditProfile = () => {
   return (
     <div className="profile">
       <ToastContainer />
-      <button className="edit-button">
-        <Link to="/profile">Back to Profile</Link>{' '}
-      </button>
 
       <form onSubmit={updateProfile}>
         <div className="user-profile-card">
@@ -148,6 +146,9 @@ const EditProfile = () => {
 
           <button type="submit" disabled={isLoading}>
             Update Profile
+          </button>
+          <button className="back-to-profile">
+            <Link to="/profile">Back to profile</Link>{' '}
           </button>
           {error && <div className="error">{error}</div>}
         </div>

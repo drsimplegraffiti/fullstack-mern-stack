@@ -37,11 +37,8 @@ const Profile = () => {
 
   return (
     <div className="profile">
-      <button className="edit-button">
-        <Link to="/edit-profile">Edit Profile</Link>{' '}
-      </button>
       <div className="user-profile-card">
-      <img src={profile.profilePic} alt="profile" />
+        <img src={profile.profilePic} alt="profile" />
         <h4>Email: {profile.email} </h4>
         <p>Bio: {profile.bio}</p>
         <p>Gender: {profile.gender}</p>
@@ -49,6 +46,9 @@ const Profile = () => {
         <p>Age: {profile.age}</p>
         <p>Address: {profile.address}</p>
         <p>Phone: {profile.phone}</p>
+        <button className="edit-button">
+          <Link to="/edit-profile">Edit</Link>
+        </button>
       </div>
     </div>
   );

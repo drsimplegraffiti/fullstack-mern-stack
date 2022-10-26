@@ -9,6 +9,7 @@ const WorkoutForm = () => {
   const [title, setTitle] = useState('');
   const [reps, setReps] = useState('');
   const [load, setLoad] = useState('');
+  const [workDone, setWorkDone] = useState(0);
   const [error, setError] = useState(null);
   const [emptyFields, setEmptyFields] = useState([]);
 
@@ -76,6 +77,15 @@ const WorkoutForm = () => {
         value={reps}
         className={emptyFields.includes('reps') ? 'error' : ''}
       />
+
+      <label>Work Done (J): </label>
+      <input
+        type="number"
+        onChange={(e) => setWorkDone(e.target.value)}
+        value={reps * load}
+        className={emptyFields.includes('reps') ? 'error' : ''}
+      />
+
       <button>Add workout</button>
       {error && <div className="error">{error}</div>}
     </form>

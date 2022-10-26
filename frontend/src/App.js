@@ -4,6 +4,8 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import Profile from './pages/Profile';
+import EditProfile from './pages/EditProfile';
 
 const App = () => {
   const { user } = useAuthContext();
@@ -17,6 +19,20 @@ const App = () => {
             <Route
               path="/"
               element={user ? <Home /> : <Navigate to="/login" />}
+            />
+          </Routes>
+
+          <Routes>
+            <Route
+              path="/profile"
+              element={user ? <Profile /> : <Navigate to="/login" />}
+            />
+          </Routes>
+
+          <Routes>
+            <Route
+              path="/edit-profile"
+              element={user ? <EditProfile /> : <Navigate to="/login" />}
             />
           </Routes>
           <Routes>
@@ -35,6 +51,6 @@ const App = () => {
       </BrowserRouter>
     </div>
   );
-};  
+};
 
 export default App;

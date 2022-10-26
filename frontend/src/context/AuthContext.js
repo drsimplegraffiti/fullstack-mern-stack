@@ -8,6 +8,18 @@ export const authReducer = (state, action) => {
       return { user: action.payload };
     case 'LOGOUT':
       return { user: null };
+    case 'UPDATE_PROFILE':
+      return {
+        user: {
+          ...state.user,
+          bio: action.payload.bio,
+          dob: action.payload.dob,
+          age: action.payload.age,
+          address: action.payload.address,
+          phone: action.payload.phone,
+          profilePic: action.payload.profilePic,
+        },
+      };
     default:
       return state;
   }
@@ -22,7 +34,10 @@ export const AuthContextProvider = ({ children }) => {
     const user = JSON.parse(localStorage.getItem('user'));
 
     if (user) {
-      dispatch({ type: 'LOGIN', payload: user });
+      dispatch({
+        type: 'LOGIN',
+        payload: user,
+      });
     }
   }, []);
 

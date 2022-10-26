@@ -14,12 +14,29 @@ const Navbar = () => {
     <header>
       <div className="container">
         <Link to="/">
-          <h1>Workout Buddy</h1>
+          <h1>Loop</h1>
         </Link>
         <nav>
           {user && (
             <div>
-              <span>{user.email}</span>
+              <p 
+                style={{
+                  display: 'inline-block',
+                  margin: '0 1rem',
+                  width: '50px',
+                  height: '50px',
+                  backgroundColor: 'black',
+                  color: 'white',
+                  borderRadius: '50%',
+                  textAlign: 'center',
+                  lineHeight: '50px',
+                  fontSize: '1.5rem',
+                  fontWeight: 'bold',
+                }}
+              >
+                {user.email.split('@')[0][0].toUpperCase()}
+              </p>
+              <Link to="/profile">Profile</Link>
               <button onClick={handleClick}>Log out</button>
             </div>
           )}

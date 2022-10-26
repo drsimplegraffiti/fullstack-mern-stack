@@ -7,12 +7,38 @@ const userSchema = new Schema(
   {
     email: {
       type: String,
-      required: true,
-      unique: true,
+      required: [true, 'Email is required'],
+      unique: [true, 'Email already in use'],
     },
     password: {
       type: String,
-      required: true,
+      required: [true, 'Password is required'],
+    },
+    gender: {
+      type: String,
+      required: [true, 'Please select your gender'],
+      enum: ['Male', 'Female'],
+      default: 'Male',
+    },
+    bio: {
+      type: String,
+    },
+    age: {
+      type: Number,
+      required: false,
+    },
+    phone: {
+      type: String,
+    },
+    address: {
+      type: String,
+    },
+    dob: {
+      type: String,
+    },
+    profilePic: {
+      type: String,
+      default:"https://res.cloudinary.com/drsimple/image/upload/v1666795253/kpjowf2wagt0grs0rcev.png"
     },
   },
   {
@@ -21,8 +47,9 @@ const userSchema = new Schema(
 );
 
 // static signup method
-userSchema.statics.signup = async function (email, password) {
-  if (!email || !password) {
+userSchema.statics.signup = async function (email, password, gender, bio) {
+  console.log({ email, password, gender, bio });
+  if (!email || !password || !gender || !bio) {
     throw Error('All fields muts be filled');
   }
 
@@ -46,6 +73,8 @@ userSchema.statics.signup = async function (email, password) {
   const user = await this.create({
     email,
     password: hash,
+    gender,
+    bio,
   });
 
   return user;

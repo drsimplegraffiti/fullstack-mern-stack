@@ -10,6 +10,13 @@ const userSchema = new Schema(
       required: [true, 'Email is required'],
       unique: [true, 'Email already in use'],
     },
+    firstName: {
+      type: String,
+    },
+    lastName: {
+      type: String,
+    },
+
     password: {
       type: String,
       required: [true, 'Password is required'],
@@ -38,7 +45,35 @@ const userSchema = new Schema(
     },
     profilePic: {
       type: String,
-      default:"https://res.cloudinary.com/drsimple/image/upload/v1666795253/kpjowf2wagt0grs0rcev.png"
+      default:
+        'https://res.cloudinary.com/drsimple/image/upload/v1666795253/kpjowf2wagt0grs0rcev.png',
+    },
+    resetPasswordToken: {
+      type: String,
+    },
+    resetPasswordExpires: {
+      type: Date,
+    },
+    medicalCondition: {
+      type: String,
+      enum: [
+        'Diabetes',
+        'Asthma',
+        'Others',
+        'Broken bones',
+        'Chest pains',
+        'High Blood Pressure',
+        'Heart Disease',
+        'Others',
+        'Cancer',
+        'None',
+      ],
+      default: 'None',
+    },
+    membership: {
+      type: String,
+      enum: ['1 month', '3 months', '6 months', '1 year'],
+      default: '1 month',
     },
   },
   {
@@ -46,10 +81,41 @@ const userSchema = new Schema(
   }
 );
 
+
+
+
+
 // static signup method
-userSchema.statics.signup = async function (email, password, gender, bio) {
-  console.log({ email, password, gender, bio });
-  if (!email || !password || !gender || !bio) {
+userSchema.statics.signup = async function (
+  email,
+  password,
+  gender,
+  bio,
+  medicalCondition,
+  membership,
+  firstName,
+  lastName
+) {
+  console.log({
+    email,
+    password,
+    gender,
+    bio,
+    medicalCondition,
+    membership,
+    firstName,
+    lastName,
+  });
+  if (
+    !email ||
+    !password ||
+    !gender ||
+    !bio ||
+    !medicalCondition ||
+    !membership ||
+    !firstName ||
+    !lastName
+  ) {
     throw Error('All fields muts be filled');
   }
 
@@ -75,6 +141,10 @@ userSchema.statics.signup = async function (email, password, gender, bio) {
     password: hash,
     gender,
     bio,
+    medicalCondition,
+    membership,
+    firstName,
+    lastName,
   });
 
   return user;

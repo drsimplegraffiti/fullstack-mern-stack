@@ -6,6 +6,8 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Profile from './pages/Profile';
 import EditProfile from './pages/EditProfile';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 
 const App = () => {
   const { user } = useAuthContext();
@@ -20,6 +22,13 @@ const App = () => {
               path="/"
               element={user ? <Home /> : <Navigate to="/login" />}
             />
+          </Routes>
+          <Routes>
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+          </Routes>
+
+          <Routes>
+            <Route path="/reset-password/:token" element={<ResetPassword />} />
           </Routes>
 
           <Routes>

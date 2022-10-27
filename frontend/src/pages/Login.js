@@ -35,6 +35,9 @@ const Login = () => {
       <div className="register-login-redirect">
         Don't have an account? <Link to="/signup">Signup</Link>
       </div>
+      <div className="forgot-password">
+        <Link to="/forgot-password">Forgot Password?</Link>
+      </div>
 
       {error && <div className="error">{error}</div>}
     </form>

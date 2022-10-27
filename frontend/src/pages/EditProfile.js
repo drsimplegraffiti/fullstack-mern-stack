@@ -6,7 +6,6 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
 const EditProfile = () => {
   const navigate = useNavigate();
   const { user, dispatch } = useAuthContext();
@@ -57,7 +56,6 @@ const EditProfile = () => {
       }
 
       if (response.data) {
-        
         setError(null);
         console.log(json);
         dispatch({ type: 'UPDATE_PROFILE', payload: json });
@@ -88,6 +86,10 @@ const EditProfile = () => {
             placeholder="Enter your bio"
             value={profile.bio}
             onChange={handleChange}
+            // prefill the input with the  value from the database
+            defaultValue={user?.profile?.bio}
+
+
           />
 
           <label htmlFor="dob">Date of Birth</label>

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useWorkoutsContext } from '../hooks/useWorkoutsContext';
 import { useAuthContext } from '../hooks/useAuthContext';
+import { FaUndo } from 'react-icons/fa';
 
 const WorkoutForm = () => {
   const { dispatch } = useWorkoutsContext();
@@ -50,6 +51,15 @@ const WorkoutForm = () => {
     }
   };
 
+  const handleFormReset = () => {
+    setTitle('');
+    setLoad('');
+    setReps('');
+    setError(null);
+    setEmptyFields([]);
+  };
+  
+
   return (
     <form className="create" onSubmit={handleSubmit}>
       <h3>Add a new Workout</h3>
@@ -87,6 +97,10 @@ const WorkoutForm = () => {
       />
 
       <button>Add workout</button>
+      {/* reset icon */}
+      <button type="reset" onClick={handleFormReset} className="reset-button">
+        <FaUndo />
+      </button>
       {error && <div className="error">{error}</div>}
     </form>
   );

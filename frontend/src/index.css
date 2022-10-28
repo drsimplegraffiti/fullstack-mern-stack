@@ -148,7 +148,7 @@ nav button {
 }
 
 /* auth forms */
-form.signup, form.login,form.forgot-password, form.reset-password {
+form.signup, form.login, form.forgot-password, form.reset-password {
   max-width: 400px;
   margin: 40px auto;
   padding: 20px;
@@ -254,7 +254,7 @@ form.signup, form.login,form.forgot-password, form.reset-password {
   margin-left: 10px;
 }
 
-.forgot-password a{
+.forgot-password a {
   margin-top: 20px;
   text-decoration: none;
   color: var(--primary);
@@ -264,4 +264,34 @@ form.signup, form.login,form.forgot-password, form.reset-password {
   margin-top: 10px;
   text-decoration: none;
   color: var(--primary);
+}
+
+.google-login {
+  margin-top: 20px;
+  text-decoration: none;
+  color: var(--primary);
+}
+
+.google-login img {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+.password-container {
+  position: relative;
+}
+
+
+.fa-eye {
+  position: absolute;
+  top: 28%;
+  right: 4%;
+  cursor: pointer;
+  color: var(--primary);
+  font-size: 18px;
+}
+
+.fa-eye:before {
+  content: "";
 }

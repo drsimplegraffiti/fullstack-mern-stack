@@ -4,6 +4,7 @@ const connectDB = require('./config/db');
 const cors = require('cors');
 const workoutRoutes = require('./routes/workouts');
 const userRoutes = require('./routes/user');
+const morgan = require("morgan")
 
 connectDB();
 
@@ -22,6 +23,7 @@ app.use((req, res, next) => {
   );
   next();
 });
+app.use(morgan("dev"))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

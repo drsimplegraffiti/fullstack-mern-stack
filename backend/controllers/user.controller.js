@@ -2,8 +2,9 @@ const User = require('../models/user.model');
 const jwt = require('jsonwebtoken');
 const { cloudinary } = require('../utils/image.upload');
 const sendEmail = require('../utils/email');
-const crypto = require('crypto');
-const bcrypt = require("bcrypt")
+const bcrypt = require('bcrypt');
+const { google } = require('googleapis');
+const { OAuth2 } = google.auth;
 
 const createToken = (_id) => {
   return jwt.sign({ _id }, process.env.SECRET, {
@@ -47,6 +48,19 @@ exports.userSignup = async (req, res) => {
       lastName
     );
     const token = createToken(user._id);
+
+    //  send welcome message
+    const message = `
+      <h1>Welcome to the Family</h1>
+      <p>Thank you for joining us. We hope you have a great time.</p>
+      <p>Regards, <br> Team Fitness</p>
+    `;
+    await sendEmail({
+      email: user.email,
+      subject: 'Welcome to Fitness',
+      html: message,
+    });
+
     return res.status(201).json({ email, token });
   } catch (error) {
     console.log(error);
@@ -139,13 +153,13 @@ exports.forgotPassword = async (req, res) => {
     const message = `
       <h1>You have requested a password reset</h1>
       <p>Please go to this link to reset your password</p>
-      <a href=${resetUrl} clicktracking=off>${resetUrl}</a>
+ <a href=${resetUrl} clicktracking=off>${resetUrl}</a> 
     `;
     try {
       await sendEmail({
         email: user.email,
         subject: 'Password reset request',
-        text: message,
+        html: message,
       });
 
       return res.status(200).json({
@@ -181,6 +195,69 @@ exports.resetPassword = async (req, res) => {
     return res.status(200).json({
       message: 'Password reset successful',
     });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({
+      error: error.message,
+    });
+  }
+};
+
+exports.googleSignIn = async (req, res) => {
+  const { tokenId } = req.body;
+  try {
+    // verify Token Id
+    const client = new OAuth2(process.env.G_CLIENT_ID);
+    const verify = await client.verifyIdToken({
+      idToken: tokenId,
+      audience: process.env.G_CLIENT_ID,
+    });
+
+    const { email_verified, email, name, picture } = verify.payload;
+
+    if (!email_verified) {
+      return res.status(400).json({
+        error: 'Email verification failed',
+      });
+    }
+
+    const user = await User.findOne({ email });
+
+    if (user) {
+      const token = createToken(user._id);
+      res.cookie('token', token, {
+        httpOnly: true,
+        sameSite: 'none',
+        secure: true,
+      });
+      //  send welcome message
+      const message = `
+    <h1>Welcome to the Family</h1>
+    <p>Thank you for joining us. We hope you have a great time.</p>
+    <p>Regards, <br> Team Fitness</p>
+  `;
+      await sendEmail({
+        email: user.email,
+        subject: 'Welcome to Fitness',
+        html: message,
+      });
+      return res.status(200).json({ email, token });
+    } else {
+      const password = email + process.env.SECRET;
+      const newUser = await User.signup(
+        email,
+        password,
+        firstName,
+        lastName,
+        bio,
+        medicalCondition,
+        membership
+      );
+
+      const token = createToken(newUser._id);
+
+      return res.status(201).json({ email, token });
+    }
   } catch (error) {
     console.log(error);
     return res.status(400).json({

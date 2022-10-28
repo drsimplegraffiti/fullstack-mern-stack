@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { useSignup } from '../hooks/useSignup';
 
@@ -11,6 +12,7 @@ const Signup = () => {
   const [membership, setMembership] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const [isVisible, setVisible] = useState(false);
 
   const { signup, error, isLoading } = useSignup();
 
@@ -39,6 +41,10 @@ const Signup = () => {
     'Cancer',
     'None',
   ];
+
+  const toggle = () => {
+    setVisible(!isVisible);
+  };
 
   const membershipOptions = ['1 month', '3 months', '6 months', '1 year'];
   return (
@@ -114,15 +120,34 @@ const Signup = () => {
         ))}
       </div>
       <label>Password: </label>
-      <input
-        type="password"
-        onChange={(e) => setPassword(e.target.value)}
-        value={password}
-      />
+      <div class="password-container">
+        <input
+          type={isVisible ? 'text' : 'password'}
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
+        />
+        <i onClick={toggle} className="fa-eye">
+          {isVisible ? <FaEyeSlash /> : <FaEye />}
+        </i>
+      </div>
+
       <button disabled={isLoading}>Sign up</button>
       <div className="register-login-redirect">
-        Already have an account? <Link to="/login">Login</Link>
+        <br />
+        Want to login ? 👉🏻<Link to="/login">Login</Link>
       </div>
+
+      {isLoading && (
+        <div class="loadingio-spinner-ellipsis-ht3wwyed9nk">
+          <div class="ldio-wy3dnbvak9">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+      )}
 
       {error && <div className="error">{error}</div>}
     </form>

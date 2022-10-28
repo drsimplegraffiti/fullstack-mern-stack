@@ -16,6 +16,7 @@ const sendEmail = async (options) => {
     subject: options.subject,
     text: options.text,
     message: options.message,
+    html: options.html,
   };
 
   try {

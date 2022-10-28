@@ -14,12 +14,24 @@ const Navbar = () => {
     <header>
       <div className="container">
         <Link to="/">
-          <h1>Loop</h1>
+          <h1>
+            {/* use react-icons/fa  FaGym */}
+            <i className="fas fa-dumbbell">
+              Fitne
+              <span
+                style={{
+                  color: '#e7195a',
+                }}
+              >
+                X
+              </span>
+            </i>
+          </h1>
         </Link>
         <nav>
           {user && (
             <div>
-              <p 
+              <p
                 style={{
                   display: 'inline-block',
                   margin: '0 1rem',

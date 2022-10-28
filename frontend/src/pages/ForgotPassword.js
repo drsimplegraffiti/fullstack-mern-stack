@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import "../loading.css"
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
@@ -49,6 +50,18 @@ const ForgotPassword = () => {
         <div className="go-back-home">
           <Link to="/">Go Back Home</Link>
         </div>
+        {isLoading && (
+          <div class="loadingio-spinner-reload-e5sgld2eww">
+            <div class="ldio-1td4xktwchm">
+              <div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+            </div>
+          </div>
+        )}
+
       {error && <div className="error">{error}</div>}
       </form>
     </div>
